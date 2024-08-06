@@ -18,7 +18,6 @@ import sys
 sys.path.append(f'{root_path}envs/mp/lib/python3.12.4/site-packages/')
 
 import meep as mp
-import nbconvert
 import numpy as np
 import matplotlib.pyplot as plt
 from mpi4py.MPI import COMM_WORLD
@@ -45,13 +44,13 @@ geometry = [mp.Block(mp.Vector3(mp.inf,1,mp.inf),     # Defines a parallelepiped
 # +
 sources = [mp.Source(mp.ContinuousSource(frequency=Rankfreq),  # Frequency f corresponds to a vacuum wavelength of 1/0.15=6.67 μm
                      component=mp.Ez,                      # Component Ez to specify a eletric current
-                     center=mp.Vector3(-7,0))]             # The current is located at (-7,0)
+                     center=mp.Vector3(7,0))]             # The current is located at (-7,0)
 
 # Is important to leave a little space between sources and the cell boundaries, 
 # to keep the boundary conditions from interfering with them.
 # -
 
-resolution = 10
+resolution = 60
 
 sim = mp.Simulation(cell_size=cell,
                     boundary_layers=pml_layers,
@@ -59,11 +58,11 @@ sim = mp.Simulation(cell_size=cell,
                     sources=sources,
                     resolution=resolution)
 
-sim.run(until=2000)  # Run until a time of t = 200
+sim.run(until=500)  # Run until a time of t = 500
 
 # ## Parallel Simulation
 
-cores = 3
+cores = 4
 resultPath = 'ParallelResults/Result.out'
 
 # !jupytext --to py MEEPParalleltesting.ipynb
@@ -91,4 +90,6 @@ resultPath = 'ParallelResults/Result.out'
 # plt.plot(10,39,'go')
 # plt.text(4,55,'Source',color='g')
 # plt.axis('off')
+# plt.plot(80,39,'ro')
+# plt.text(4,55,'Field Decay',color='g')
 # plt.show()
