@@ -23,42 +23,71 @@ import matplotlib.pyplot as plt
 from mpi4py.MPI import COMM_WORLD
 from IPython.display import clear_output, Math, HTML
 
-# +
 comm = COMM_WORLD
 rank = comm.Get_rank()
+# -
 
-Rankfreq = 0.15 - 0.005*rank
-print(f'Hi, im proccess {rank} and im starting the simulation on the wavelength {1/Rankfreq} μm')
+# The cell below is for single core meep simulation
+
+# Rankfreq = [0.65146580,0.6493506,0.64724919,0.64516129,0.6430861,0.6410256]
+FreqArray = [1/3,1/2.9,1/2.8,1/2.7]
+
+print(f'Hi, im proccess {rank} and im starting the simulation on the wavelength {1/FreqArray[rank]} μm')
 
 # +
-cell = mp.Vector3(16,8,0)  # This is the simulation window. Here is defined a 2D-cell with Δx=16um and Δy=8um 
+cell = mp.Vector3(40,16,0)  # This is the simulation window. Here is defined a 2D-cell
 
-pml_layers = [mp.PML(1.0)]  # Adding an absorbing layer (PML) of thickness 1 μm around all sides of the cell
+pml_layers = [mp.PML(2.0)]  # Adding an absorbing layer (PML) of thickness 0.1 μm around all sides of the cell
 
-geometry = [mp.Block(mp.Vector3(mp.inf,1,mp.inf),     # Defines a parallelepiped block of size ∞ × 1 × ∞
+geometry = [mp.Block(mp.Vector3(mp.inf,0.5,0.22), 
                      center=mp.Vector3(),             # Centered at (0,0)
-                     material=mp.Medium(epsilon=12))] # Material with ε=12
+                     material=mp.Medium(epsilon=12))] # Material with ε=12    # Defines a parallelepiped block 
 
-# By default, any place where there are no objects there is air (ε=1)
+resolution = 50
+
+# + tags=["active-ipynb"]
+# print(f'Kc={np.sqrt((1*np.pi/0.5)**2 + (0*np.pi/0.22)**2)}')
+# print(f'LambdaC = {3.17*2*np.pi/6.283185307179586}')
 
 # +
-sources = [mp.Source(mp.ContinuousSource(frequency=Rankfreq),  # Frequency f corresponds to a vacuum wavelength of 1/0.15=6.67 μm
-                     component=mp.Ez,                      # Component Ez to specify a eletric current
-                     center=mp.Vector3(7,0))]             # The current is located at (-7,0)
+sources = [mp.Source(mp.ContinuousSource(frequency=FreqArray[rank]),  
+                    component=mp.Ez,                     # Component Ez to specify a eletric current
+                    center=mp.Vector3(-7,0))]     
 
 # Is important to leave a little space between sources and the cell boundaries, 
 # to keep the boundary conditions from interfering with them.
-# -
-
-resolution = 60
 
 sim = mp.Simulation(cell_size=cell,
                     boundary_layers=pml_layers,
                     geometry=geometry,
                     sources=sources,
                     resolution=resolution)
+# -
 
-sim.run(until=500)  # Run until a time of t = 500
+sim.run(until=200)  # Run until a time of t = 100
+
+# + tags=["active-ipynb"]
+# for i in FreqArray:
+#
+#     print(f'Wavelength: {1/i} μm')
+#     sources = [mp.Source(mp.ContinuousSource(frequency=i),  
+#                         component=mp.Ez,                     # Component Ez to specify a eletric current
+#                         center=mp.Vector3(-16,0))]     
+#
+#     # Is important to leave a little space between sources and the cell boundaries, 
+#     # to keep the boundary conditions from interfering with them.
+#
+#     sim = mp.Simulation(cell_size=cell,
+#                         boundary_layers=pml_layers,
+#                         geometry=geometry,
+#                         sources=sources,
+#                         resolution=resolution)
+#     
+#     pt = mp.Vector3(0,0)
+#
+#     sim.run(until=200)  # Run until a time of t = 200
+#     #sim.run(until_after_sources=mp.stop_when_fields_decayed(50, mp.Ez, pt, 1e-1))
+# -
 
 # ## Parallel Simulation
 
@@ -87,9 +116,9 @@ resultPath = 'ParallelResults/Result.out'
 # plt.figure()
 # plt.imshow(eps_data.transpose(), interpolation='spline36', cmap='binary')
 # plt.imshow(ez_data.transpose(), interpolation='spline36', cmap='RdBu', alpha=0.9)
-# plt.plot(10,39,'go')
-# plt.text(4,55,'Source',color='g')
 # plt.axis('off')
-# plt.plot(80,39,'ro')
-# plt.text(4,55,'Field Decay',color='g')
+# # plt.plot((16/2-7)*resolution,8/2*resolution,'go')
+# # plt.text((16/2-7)*resolution,(8/2 + 1)*resolution,'Source',color='g')
+# # plt.plot(80,39,'ro')
+# # plt.text(4,55,'Field Decay',color='g')
 # plt.show()
