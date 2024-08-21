@@ -1,0 +1,133 @@
+{% set name = "pymeep" %}
+{% set version = "1.29.0" %}
+{% set sha256 = "68279f862cf9342a6e0f2023667d6a6ac7c1eafe46663705519772f312412194" %}
+{% set buildnumber = 3 %}
+# recipe-lint fails if mpi is undefined
+{% set mpi = mpi or "nompi" %}
+{% if mpi == "nompi" %}
+# prioritize nompi via build number
+{% set buildnumber = buildnumber + 100 %}
+{% set mpi_prefix = "nompi" %}
+{% else %}
+{% set mpi_prefix = "mpi_" + mpi %}
+{% endif %}
+
+package:
+  name: pymeep
+  version: {{ version }}
+
+source:
+  fn: meep-{{ version }}.tar.gz
+  url: https://github.com/NanoComp/meep/releases/download/v{{ version }}/meep-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  number: {{ buildnumber }}
+  skip: true  # [win or py<36 or python_impl == "pypy"]
+
+outputs:
+  # Define the base package for pymeep.
+  - name: pymeep
+    # Add build string so packages can depend on mpi or nompi variants of dependencies:
+    #     `pymeep * mpi_mpich_*` for mpich
+    #     `pymeep * mpi_*` for any mpi
+    #     `pymeep * nompi_*` for no mpi
+    script: pymeep_build.sh
+    build:
+      string: {{ mpi_prefix }}_py{{ py }}h{{ PKG_HASH }}_{{ buildnumber }}
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ compiler('fortran') }}
+        - {{ stdlib("c") }}
+      host:
+        - make
+        - libblas
+        - libcblas
+        - liblapack
+        - libgdsii >=0.21
+        - {{ mpi }}  # [mpi != 'nompi']
+        - mpi4py >=3.0  # [mpi != 'nompi']
+        - python
+        - libctl >=4.5.0
+        - harminv >=1.4.1
+        - mpb >=1.11 {{ mpi_prefix }}_*
+        # We need to list hdf5 twice to get version pinning from
+        # conda_build_config.yaml, (which falls back to the one from conda-forge,)
+        # and build pinning from {{ mpi_prefix }}
+        - hdf5
+        - hdf5 * {{ mpi_prefix }}_*
+        - fftw * {{ mpi_prefix }}_*
+        - numpy
+        - gsl
+      run:
+        # more or less a copy of the specs above
+        - libblas
+        - libcblas
+        - liblapack
+        - libgdsii >=0.21
+        - {{ mpi }}  # [mpi != 'nompi']
+        - mpi4py >=3.0  # [mpi != 'nompi']
+        - python
+        - libctl >=4.5.0
+        - harminv >=1.4.1
+        - mpb >=1.11 {{ mpi_prefix }}_*
+        - hdf5 * {{ mpi_prefix }}_*
+        - fftw * {{ mpi_prefix }}_*
+        - {{ pin_compatible('numpy') }}
+        - h5py * {{ mpi_prefix }}_*
+        - zlib
+        - libopenblas
+        - _openmp_mutex  # [linux]
+        - matplotlib-base
+        - scipy
+    test:
+      requires:
+        - parallel
+        - matplotlib-base
+        - autograd
+        - scipy
+        - ffmpeg
+      imports:
+        - meep
+        - meep.mpb
+      script: pymeep_run_test.sh
+      source_files:
+        - tests/cyl-ellipsoid-eps-ref.h5
+        - python/tests/*.py
+        - python/tests/data/*
+
+  # Define a metapackage with extras needed for the tutorials/tests.
+  - name: pymeep-extras
+    # add build string so packages can depend on mpi or nompi variants
+    # dependencies:
+    #     `pymeep * mpi_mpich_*` for mpich
+    #     `pymeep * mpi_*` for any mpi
+    #     `pymeep * nompi_*` for no mpi
+    build:
+      string: {{ mpi_prefix }}_py{{ py }}h{{ PKG_HASH }}_{{ buildnumber }}
+    requirements:
+      run:
+        - {{ pin_subpackage("pymeep", exact=True) }}
+        # Extras typically used at runtime
+        - autograd
+        - ffmpeg
+        - h5utils * {{ mpi_prefix }}_*
+        # - mayavi ##  disabled until conda-forge/mayavi-feedstock#56 is merged
+    test:
+      imports:
+        - meep
+        - meep.mpb
+
+about:
+  home: https://github.com/NanoComp/meep
+  license: GPL-2.0-or-later
+  license_file: LICENSE
+  summary: Free finite-difference time-domain (FDTD) software for electromagnetic simulations
+  doc_url: https://meep.readthedocs.io
+  dev_url: https://github.com/NanoComp/meep
+
+extra:
+  recipe-maintainers:
+    - oskooi

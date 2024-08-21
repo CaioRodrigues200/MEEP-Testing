@@ -1,0 +1,27 @@
+{
+  "arch": "x86_64",
+  "build": "h4a7f18d_101",
+  "build_number": 101,
+  "channel": "https://conda.anaconda.org/conda-forge/linux-64",
+  "constrains": [],
+  "depends": [
+    "__glibc >=2.17,<3.0.a0",
+    "libgcc-ng >=12",
+    "libgfortran-ng",
+    "libgfortran5 >=12.4.0",
+    "libstdcxx-ng >=12",
+    "mpi 1.0 mpich"
+  ],
+  "fn": "mpich-4.2.2-h4a7f18d_101.conda",
+  "license": "LicenseRef-MPICH",
+  "license_family": "Other",
+  "md5": "b4cdd5ee00e999edf626ae49ff6feac2",
+  "name": "mpich",
+  "platform": "linux",
+  "sha256": "287298cce4187881ef54a3e6b733d2d3f5e796d36829b4dbb125729bbe3a55e4",
+  "size": 26475173,
+  "subdir": "linux-64",
+  "timestamp": 1722435264000,
+  "url": "https://conda.anaconda.org/conda-forge/linux-64/mpich-4.2.2-h4a7f18d_101.conda",
+  "version": "4.2.2"
+}

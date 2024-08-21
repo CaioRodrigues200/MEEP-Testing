@@ -1,0 +1,141 @@
+{% set version = "4.2.2" %}
+{% set build = 1 %}
+
+# give conda package a higher build number
+{% if mpi_type == 'conda' %}
+{% set build = build + 100 %}
+{% endif %}
+
+package:
+  # must not match any outputs for requirements to be handled correctly
+  name: mpich-mpi
+  version: {{ version }}
+
+source:
+  fn: mpich-{{ version }}.tar.gz
+  url: https://www.mpich.org/static/downloads/{{ version }}/mpich-{{ version }}.tar.gz
+  sha256: 883f5bb3aeabf627cb8492ca02a03b191d09836bbe0f599d8508351179781d41
+  patches:
+    - libfrabric-osx-memsize.patch
+
+build:
+  number: {{ build }}
+  skip: true  # [win]
+
+outputs:
+  - name: mpich
+    {% if mpi_type == 'conda' %}
+    script: build-mpi.sh
+    {% endif %}
+    build:
+      {% if mpi_type == 'conda' %}
+      run_exports:
+        - {{ pin_subpackage('mpich', max_pin='x') }}
+      {% else %}
+      string: {{ mpi_type }}_h{{ PKG_HASH }}_{{ build }}
+      track_features:
+        - mpich_{{ mpi_type }}
+      {% endif %}
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ compiler('fortran') }}
+        - {{ stdlib("c") }}
+        - autoconf  # [unix]
+        - automake  # [unix]
+        - libtool   # [unix]
+        - make  # [unix]
+        - gnuconfig  # [arm64]
+      host:
+        - {{ fortran_compiler }}_{{ target_platform }} {{ fortran_compiler_version }}  # hack to force conda to make both fortran abi builds
+      run:
+        - mpi 1.0 mpich
+    test:
+      {% if mpi_type == 'conda' %}
+      script: run_test.sh
+      files:
+        - mpiexec.sh
+        - tests/helloworld.sh
+      {% else %}
+      commands:
+        - echo "It works!"
+      {% endif %}
+
+  {% if mpi_type == 'conda' %}
+  - name: mpich-mpicc
+    build:
+      script:
+        - echo 'ok'  # [not osx]
+        # make CONDA_BUILD_SYSROOT a 'used variable'
+        # so that conda-build knows to pass it to the test env
+        - echo "{{ CONDA_BUILD_SYSROOT }}"  # [osx]
+    requirements:
+      run:
+        - {{ pin_subpackage('mpich', exact=True) }}
+        # host C compilers work fine (better) on mac
+        - {{ compiler('c') }}
+    test:
+      script: run_test.sh
+      files:
+        - mpiexec.sh
+        - tests/helloworld.c
+
+  - name: mpich-mpicxx
+    build:
+      script:
+        - echo 'ok'  # [not osx]
+        # make CONDA_BUILD_SYSROOT a 'used variable'
+        # so that conda-build knows to pass it to the test env
+        - echo "{{ CONDA_BUILD_SYSROOT }}"  # [osx]
+    requirements:
+      run:
+        - {{ pin_subpackage('mpich', exact=True) }}
+        # host C compilers work fine (better) on mac
+        - {{ compiler('cxx') }}
+    test:
+      script: run_test.sh
+      files:
+        - mpiexec.sh
+        - tests/helloworld.cxx
+
+  - name: mpich-mpifort
+    build:
+      script:
+        - echo 'ok'  # [not osx]
+        # make CONDA_BUILD_SYSROOT a 'used variable'
+        # so that conda-build knows to pass it to the test env
+        - echo "{{ CONDA_BUILD_SYSROOT }}"  # [osx]
+    requirements:
+      run:
+        - {{ pin_subpackage('mpich', exact=True) }}
+        - {{ compiler('fortran') }}
+    test:
+      script: run_test.sh
+      files:
+        - mpiexec.sh
+        - tests/helloworld.f
+        - tests/helloworld.f90
+        - tests/helloworld.f08
+  {% endif %}
+
+about:
+  home: https://www.mpich.org/
+  license: LicenseRef-MPICH
+  license_file: COPYRIGHT
+  license_family: Other
+  summary: A high performance widely portable implementation of the MPI standard.
+  description: |
+    MPICH is a high performance and widely portable implementation of the
+    Message Passing Interface (MPI) standard.
+  doc_url: https://www.mpich.org/documentation/guides
+  dev_url: https://github.com/pmodels/mpich
+
+extra:
+  recipe-maintainers:
+    - astrofrog
+    - bekozi
+    - dalcinl
+    - minrk
+    - msarahan
+    - ocefpaf

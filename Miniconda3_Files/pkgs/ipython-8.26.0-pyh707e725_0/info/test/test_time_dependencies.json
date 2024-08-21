@@ -1,0 +1,1 @@
+["pickleshare", "trio", "pip", "matplotlib-base !=3.2.0", "pygments", "mypy", "pytest", "curio", "nbformat", "pytest-asyncio <0.22", "types-decorator", "pandas", "numpy >=1.23", "black", "pytest-cov", "testpath"]

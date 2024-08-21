@@ -1,0 +1,10 @@
+{
+  "target_platform": "linux-64",
+  "c_compiler": "gcc",
+  "mpi": "mpich",
+  "channel_targets": "conda-forge main",
+  "c_compiler_version": "12",
+  "numpy": "1.22",
+  "python": "3.10.* *_cpython",
+  "hdf5": "1.14.2"
+}

@@ -1,0 +1,24 @@
+{
+  "arch": "x86_64",
+  "build": "mpi_mpich_h5eb1b22_4",
+  "build_number": 4,
+  "depends": [
+    "_openmp_mutex",
+    "fftw >=3.3.10,<4.0a0",
+    "hdf5 >=1.14.2,<1.14.3.0a0 mpi_mpich_*",
+    "libblas >=3.9.0,<4.0a0",
+    "libcblas >=3.9.0,<4.0a0",
+    "libgcc-ng >=12",
+    "libgfortran-ng",
+    "libgfortran5 >=12.3.0",
+    "liblapack >=3.9.0,<4.0a0",
+    "mpich >=4.1.2,<5.0a0",
+    "zlib"
+  ],
+  "license": "GPL-2.0-or-later",
+  "name": "mpb",
+  "platform": "linux",
+  "subdir": "linux-64",
+  "timestamp": 1692712960702,
+  "version": "1.11.1"
+}

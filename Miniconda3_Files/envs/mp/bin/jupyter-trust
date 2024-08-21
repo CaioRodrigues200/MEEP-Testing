@@ -1,4 +1,4 @@
-#!/home/fotonica01/Documents/GitHub/MEEP-Testing/Miniconda3_Files/envs/mp/bin/python3.10
+#!/home/caio/Documentos/GitHub/MEEP-Testing/Miniconda3_Files/envs/mp/bin/python3.10
 # -*- coding: utf-8 -*-
 import re
 import sys

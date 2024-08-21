@@ -1,0 +1,30 @@
+# This file created by conda-build 2.1.18
+# meta.yaml template originally from:
+# /recipe_root, last modified Thu Mar  1 18:45:50 2018
+# ------------------------------------------------
+
+package:
+    name: mpi
+    version: '1.0'
+build:
+    noarch: ''
+    noarch_python: false
+    number: '0'
+    string: mpich
+requirements:
+    build: []
+    run: []
+test:
+    commands:
+        - echo "I'm a metapackage"
+about:
+    home: https://github.com/conda-forge/mpi-feedstock
+    license: BSD 3-clause
+    license_file: /recipe_root/LICENSE.txt
+    summary: Metapackage to select the MPI variant. Use conda's pinning mechanism
+        in your environment to control which variant you want.
+extra:
+    final: true
+    recipe-maintainers:
+        - minrk
+        - ocefpaf

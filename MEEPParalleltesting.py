@@ -20,8 +20,13 @@ sys.path.append(f'{root_path}envs/mp/lib/python3.12.4/site-packages/')
 import meep as mp
 import numpy as np
 import matplotlib.pyplot as plt
-from mpi4py.MPI import COMM_WORLD
 from IPython.display import clear_output, Math, HTML
+# -
+
+# If the bash !mpirun fails running for some reason, try avoid running the cell below, although it will still be considered in the .py file
+
+# +
+from mpi4py.MPI import COMM_WORLD
 
 comm = COMM_WORLD
 rank = comm.Get_rank()
@@ -30,9 +35,10 @@ rank = comm.Get_rank()
 # The cell below is for single core meep simulation
 
 # Rankfreq = [0.65146580,0.6493506,0.64724919,0.64516129,0.6430861,0.6410256]
-FreqArray = [1/3,1/2.9,1/2.8,1/2.7]
+FreqArray = [1/3,1/2.9,1/2.8,1/2.7,1/2.6,1/2.5,1/2.4,1/2.3,1/2.2,1/2.1,1/2,1/1.9,1/1.8,1/1.7,1/1.6,1/1.5,1/1.4,1/1.3,1/1.2,1/1.1,1/1,1/0.9,1/0.8,1/0.7,1/0.6,1/0.5,1/0.4]
+print(len(FreqArray))
 
-print(f'Hi, im proccess {rank} and im starting the simulation on the wavelength {1/FreqArray[rank]} μm')
+print(f'Hi, im proccess {rank} and im starting the simulation on the wavelength {1/FreqArray[0]} μm')
 
 # +
 cell = mp.Vector3(40,16,0)  # This is the simulation window. Here is defined a 2D-cell
@@ -43,14 +49,14 @@ geometry = [mp.Block(mp.Vector3(mp.inf,0.5,0.22),
                      center=mp.Vector3(),             # Centered at (0,0)
                      material=mp.Medium(epsilon=12))] # Material with ε=12    # Defines a parallelepiped block 
 
-resolution = 50
+resolution = 30
 
 # + tags=["active-ipynb"]
 # print(f'Kc={np.sqrt((1*np.pi/0.5)**2 + (0*np.pi/0.22)**2)}')
 # print(f'LambdaC = {3.17*2*np.pi/6.283185307179586}')
 
 # +
-sources = [mp.Source(mp.ContinuousSource(frequency=FreqArray[rank]),  
+sources = [mp.Source(mp.ContinuousSource(frequency=FreqArray[0]),  
                     component=mp.Ez,                     # Component Ez to specify a eletric current
                     center=mp.Vector3(-7,0))]     
 
@@ -91,7 +97,7 @@ sim.run(until=200)  # Run until a time of t = 100
 
 # ## Parallel Simulation
 
-cores = 4
+cores = 1
 resultPath = 'ParallelResults/Result.out'
 
 # !jupytext --to py MEEPParalleltesting.ipynb
@@ -102,17 +108,19 @@ resultPath = 'ParallelResults/Result.out'
 # Getting the dieletric region
 
 # + tags=["active-ipynb"]
-# eps_data = sim.get_array(center=mp.Vector3(), size=cell, component=mp.Dielectric)
+# eps_data = sim.get_array(center=mp.Vector3(), size=mp.Vector3(8,4,0), component=mp.Dielectric)
 # plt.figure()
 # plt.imshow(eps_data.transpose(), interpolation='spline36', cmap='binary')
 # plt.axis('off')
 # plt.show()
 # -
 
+sim.get_array(center=mp.Vector3(), size=mp.Vector3(10,16,0), component=mp.Ez)
+
 # Getting results
 
 # + tags=["active-ipynb"]
-# ez_data = sim.get_array(center=mp.Vector3(), size=cell, component=mp.Ez)
+# ez_data = sim.get_array(center=mp.Vector3(), size=mp.Vector3(8,4,0), component=mp.Ez)
 # plt.figure()
 # plt.imshow(eps_data.transpose(), interpolation='spline36', cmap='binary')
 # plt.imshow(ez_data.transpose(), interpolation='spline36', cmap='RdBu', alpha=0.9)
