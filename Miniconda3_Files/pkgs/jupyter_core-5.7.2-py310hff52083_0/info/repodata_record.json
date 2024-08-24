@@ -5,9 +5,9 @@
   "channel": "https://conda.anaconda.org/conda-forge/linux-64",
   "constrains": [],
   "depends": [
-    "platformdirs >=2.5",
-    "python >=3.10,<3.11.0a0",
     "python_abi 3.10.* *_cp310",
+    "python >=3.10,<3.11.0a0",
+    "platformdirs >=2.5",
     "traitlets >=5.3"
   ],
   "fn": "jupyter_core-5.7.2-py310hff52083_0.conda",

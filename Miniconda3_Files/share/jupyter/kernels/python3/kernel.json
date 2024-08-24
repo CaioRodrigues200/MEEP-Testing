@@ -1,6 +1,6 @@
 {
  "argv": [
-  "python",
+  "/home/caio/Documentos/GitHub/MEEP-Testing/Miniconda3_Files/bin/python",
   "-m",
   "ipykernel_launcher",
   "-f",

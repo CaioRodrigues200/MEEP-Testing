@@ -1,0 +1,45 @@
+# This file created by conda-build 24.1.2
+# meta.yaml template originally from:
+# /feedstock/recipe, last modified Wed Jul 10 14:33:32 2024
+# ------------------------------------------------
+
+package:
+  name: ca-certificates
+  version: 2024.7.2
+source:
+  fn: cacert.pem
+  sha256: 1bf458412568e134a4514f5e170a328d11091e071c7110955c9884ed87972ac9
+  url: https://curl.se/ca/cacert-2024-07-02.pem
+build:
+  number: '0'
+  string: h06a4308_0
+requirements:
+  build: []
+  run: []
+test:
+  requires:
+    - curl
+about:
+  description: Certificates for use with other packages.
+  dev_url: https://github.com/curl/curl/blob/master/scripts/mk-ca-bundle.pl
+  doc_url: https://github.com/curl/curl/blob/master/docs/SSLCERTS.md
+  home: https://curl.se/docs/caextract.html
+  license: MPL-2.0
+  license_family: Other
+  license_file: LICENSE.txt
+  summary: Certificates for use with other packages.
+extra:
+  copy_test_source_files: true
+  final: true
+  flow_run_id: 7c497a49-a3ba-4d8b-8d31-27810bda23c3
+  recipe-maintainers:
+    - jakirkham
+    - jjhelmus
+    - msarahan
+    - mwcraig
+    - ocefpaf
+    - patricksnape
+    - pelson
+    - scopatz
+  remote_url: git@github.com:AnacondaRecipes/ca-certificates-feedstock.git
+  sha: 04368fea00f6c926420256136a248212fb5ac467

@@ -6,8 +6,8 @@
     "prompt_toolkit 3.0.47"
   ],
   "depends": [
-    "python >=3.7",
-    "wcwidth"
+    "wcwidth",
+    "python >=3.7"
   ],
   "extracted_package_dir": "/home/caio/Documentos/GitHub/MEEP-Testing/Miniconda3_Files/pkgs/prompt-toolkit-3.0.47-pyha770c72_0",
   "files": [

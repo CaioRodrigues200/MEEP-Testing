@@ -1,0 +1,12 @@
+{
+  "zlib": "1.2",
+  "c_compiler_version": "11.2.0",
+  "bzip2": "1.0",
+  "zstd": "1.5.2",
+  "libxml2": "2.13",
+  "channel_targets": "defaults",
+  "openssl": "3.0",
+  "target_platform": "linux-64",
+  "c_compiler": "gcc",
+  "xz": "5"
+}

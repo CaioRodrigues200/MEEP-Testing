@@ -5,8 +5,8 @@
   "constrains": [],
   "depends": [
     "libgcc-ng >=12",
-    "python >=3.10,<3.11.0a0",
-    "python_abi 3.10.* *_cp310"
+    "python_abi 3.10.* *_cp310",
+    "python >=3.10,<3.11.0a0"
   ],
   "extracted_package_dir": "/home/caio/Documentos/GitHub/MEEP-Testing/Miniconda3_Files/pkgs/psutil-6.0.0-py310hc51659f_0",
   "files": [

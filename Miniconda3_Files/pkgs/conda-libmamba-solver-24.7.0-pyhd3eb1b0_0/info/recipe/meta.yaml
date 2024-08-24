@@ -1,0 +1,94 @@
+# This file created by conda-build 24.1.2
+# meta.yaml template originally from:
+# /feedstock/recipe, last modified Mon Jul 22 15:37:45 2024
+# ------------------------------------------------
+
+package:
+  name: conda-libmamba-solver
+  version: 24.7.0
+source:
+  folder: src/
+  sha256: 3eec3df72f7faa3c469b17ea1c540fa47ffc50b751a661bdf22c8e96bfb78abb
+  url: https://github.com/conda/conda-libmamba-solver/archive/refs/tags/24.7.0.tar.gz
+build:
+  noarch: python
+  number: '0'
+  script: /croot/conda-libmamba-solver_1721662679737/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_place/bin/python
+    -m pip install src/ -vv --no-deps --no-build-isolation
+  script_env:
+    - SETUPTOOLS_SCM_PRETEND_VERSION=24.7.0
+  string: pyhd3eb1b0_0
+requirements:
+  host:
+    - _libgcc_mutex 0.1 main
+    - _openmp_mutex 5.1 1_gnu
+    - bzip2 1.0.8 h5eee18b_6
+    - ca-certificates 2024.7.2 h06a4308_0
+    - editables 0.3 py312h06a4308_0
+    - expat 2.6.2 h6a678d5_0
+    - hatch-vcs 0.3.0 py312h06a4308_1
+    - hatchling 1.21.1 py312h06a4308_0
+    - ld_impl_linux-64 2.38 h1181459_1
+    - libffi 3.4.4 h6a678d5_1
+    - libgcc-ng 11.2.0 h1234567_1
+    - libgomp 11.2.0 h1234567_1
+    - libstdcxx-ng 11.2.0 h1234567_1
+    - libuuid 1.41.5 h5eee18b_0
+    - ncurses 6.4 h6a678d5_0
+    - openssl 3.0.14 h5eee18b_0
+    - packaging 24.1 py312h06a4308_0
+    - pathspec 0.10.3 py312h06a4308_0
+    - pip 24.0 py312h06a4308_0
+    - pluggy 1.0.0 py312h06a4308_1
+    - python 3.12.4 h5148396_1
+    - readline 8.2 h5eee18b_0
+    - setuptools 69.5.1 py312h06a4308_0
+    - setuptools-scm 8.1.0 py312h06a4308_0
+    - sqlite 3.45.3 h5eee18b_0
+    - tk 8.6.14 h39e8969_0
+    - trove-classifiers 2023.10.18 py312h06a4308_0
+    - tzdata 2024a h04d1e81_0
+    - wheel 0.43.0 py312h06a4308_0
+    - xz 5.4.6 h5eee18b_1
+    - zlib 1.2.13 h5eee18b_1
+  run:
+    - boltons >=23.0.0
+    - conda >=23.7.4
+    - libmambapy >=1.5.6,<2.0a0
+    - python >=3.8
+test:
+  commands:
+    - CONDA_SOLVER=libmamba conda create -n test --dry-run scipy
+    - conda create --solver libmamba -n test --dry-run scipy
+  imports:
+    - conda_libmamba_solver
+about:
+  description: 'The conda-libmamba-solver is a new solver for the conda package manager
+
+    which uses the solver from the mamba project behind the scenes,
+
+    while carefully implementing conda''s functionality and expected behaviors on
+    top.
+
+    The library used by mamba to do the heavy-lifting is called libsolv.
+
+    '
+  dev_url: https://github.com/conda/conda-libmamba-solver
+  doc_url: https://conda.github.io/conda-libmamba-solver/
+  home: https://github.com/conda/conda-libmamba-solver
+  license: BSD-3-Clause
+  license_family: BSD
+  license_file: src/LICENSE
+  summary: The fast mamba solver, now in conda!
+extra:
+  copy_test_source_files: true
+  final: true
+  flow_run_id: 3d61072c-b54a-49ce-9948-5078f0372e96
+  recipe-maintainers:
+    - jaimergp
+    - jezdez
+    - wolfv
+  remote_url: git@github.com:AnacondaRecipes/conda-libmamba-solver-feedstock.git
+  sha: 662195b8db0575a5dee754df3367c72f16bffd0f
+  skip-lints:
+    - missing_pip_check

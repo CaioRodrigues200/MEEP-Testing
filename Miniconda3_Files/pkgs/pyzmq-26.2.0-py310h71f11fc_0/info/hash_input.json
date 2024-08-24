@@ -1,0 +1,13 @@
+{
+  "cxx_compiler_version": "13",
+  "channel_targets": "conda-forge main",
+  "python": "3.10.* *_cpython",
+  "zeromq": "4.3.5",
+  "c_stdlib": "sysroot",
+  "target_platform": "linux-64",
+  "c_stdlib_version": "2.17",
+  "c_compiler_version": "13",
+  "cxx_compiler": "gxx",
+  "c_compiler": "gcc",
+  "__glibc": "__glibc >=2.17,<3.0.a0"
+}

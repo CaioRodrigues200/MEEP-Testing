@@ -1,0 +1,25 @@
+{
+  "arch": "x86_64",
+  "build": "py312h6a678d5_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/linux-64",
+  "constrains": [],
+  "depends": [
+    "libgcc-ng >=11.2.0",
+    "libstdcxx-ng >=11.2.0",
+    "python >=3.12,<3.13.0a0",
+    "zeromq >=4.3.5,<4.4.0a0"
+  ],
+  "fn": "pyzmq-25.1.2-py312h6a678d5_0.conda",
+  "license": "BSD-3-Clause AND LGPL-3.0-or-later",
+  "license_family": "BSD",
+  "md5": "e222e50ccfb73d90805aac55b527b6f4",
+  "name": "pyzmq",
+  "platform": "linux",
+  "sha256": "39fbea1e7ba57d52d562c7fa8e74d0dff3ea1bd5a765d8d71da133ab29743656",
+  "size": 545842,
+  "subdir": "linux-64",
+  "timestamp": 1705605337000,
+  "url": "https://repo.anaconda.com/pkgs/main/linux-64/pyzmq-25.1.2-py312h6a678d5_0.conda",
+  "version": "25.1.2"
+}

@@ -5,8 +5,8 @@
   "channel": "https://conda.anaconda.org/conda-forge/linux-64",
   "constrains": [],
   "depends": [
-    "__glibc >=2.17,<3.0.a0",
-    "libgcc-ng >=12"
+    "libgcc-ng >=12",
+    "__glibc >=2.17,<3.0.a0"
   ],
   "fn": "libdeflate-1.21-h4bc722e_0.conda",
   "license": "MIT",

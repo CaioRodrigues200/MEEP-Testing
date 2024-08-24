@@ -4,8 +4,8 @@
   "channel": "https://conda.anaconda.org/conda-forge/noarch",
   "constrains": [],
   "depends": [
-    "ptyprocess >=0.5",
-    "python >=3.7"
+    "python >=3.7",
+    "ptyprocess >=0.5"
   ],
   "extracted_package_dir": "/home/caio/Documentos/GitHub/MEEP-Testing/Miniconda3_Files/pkgs/pexpect-4.9.0-pyhd8ed1ab_0",
   "files": [

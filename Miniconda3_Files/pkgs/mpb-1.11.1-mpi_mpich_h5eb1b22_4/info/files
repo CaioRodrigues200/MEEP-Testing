@@ -1,9 +1,0 @@
-include/mpb.h
-include/mpb/eigensolver.h
-include/mpb/matrices.h
-include/mpb/maxwell.h
-include/mpb/scalar.h
-include/mpb/verbosity.h
-lib/libmpb.so
-lib/libmpb.so.1
-lib/libmpb.so.1.4.1

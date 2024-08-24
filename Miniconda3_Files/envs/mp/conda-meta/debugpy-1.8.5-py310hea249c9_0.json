@@ -4,11 +4,11 @@
   "channel": "https://conda.anaconda.org/conda-forge/linux-64",
   "constrains": [],
   "depends": [
-    "__glibc >=2.17,<3.0.a0",
     "libgcc-ng >=12",
     "libstdcxx-ng >=12",
+    "python_abi 3.10.* *_cp310",
     "python >=3.10,<3.11.0a0",
-    "python_abi 3.10.* *_cp310"
+    "__glibc >=2.17,<3.0.a0"
   ],
   "extracted_package_dir": "/home/caio/Documentos/GitHub/MEEP-Testing/Miniconda3_Files/pkgs/debugpy-1.8.5-py310hea249c9_0",
   "files": [

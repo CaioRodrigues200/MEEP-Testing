@@ -4,9 +4,9 @@
   "channel": "https://conda.anaconda.org/conda-forge/noarch",
   "constrains": [],
   "depends": [
-    "python >=3.8",
     "setuptools",
-    "wheel"
+    "wheel",
+    "python >=3.8"
   ],
   "fn": "pip-24.2-pyhd8ed1ab_0.conda",
   "license": "MIT",
